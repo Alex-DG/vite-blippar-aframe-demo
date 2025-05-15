@@ -6,6 +6,14 @@ const params = new URLSearchParams(document.location.search.substring(1))
 const sceneName = params.get('scene') ? params.get('scene') : 'default-scene'
 console.log('sceneName = ', sceneName)
 
+const updateResetButton = () => {
+  const resetButton = document.getElementById('resetButton')
+  if (resetButton) {
+    const resetButtonImage = resetButton.firstElementChild
+    if (resetButtonImage) resetButtonImage.style.display = 'block'
+  }
+}
+
 // Load scene content
 fetch(`../scenes/${sceneName}.html`)
   .then((response) => response.text())
@@ -19,16 +27,8 @@ fetch(`../scenes/${sceneName}.html`)
     WEBARSDK.SetStageReadyCallback(() => {
       console.info('Stage is ready now!!!')
 
-      const resetButton = document.getElementById('resetButton')
-      if (resetButton) {
-        const resetButtonImage = resetButton.firstElementChild
-        if (resetButtonImage) {
-          console.log({ resetButtonImage })
-          resetButtonImage.src =
-            'https://webar-sdk.blippar.com/static/restart_surface_detection.svg'
-          resetButtonImage.style.display = 'block'
-        }
-      }
+      // Fix resetButton icon when loading scene dynamically
+      updateResetButton()
     })
 
     WEBARSDK.SetGuideViewCallbacks(
@@ -47,27 +47,3 @@ fetch(`../scenes/${sceneName}.html`)
   .catch((error) => {
     console.error('Error loading scene:', error)
   })
-
-// Refer API:Functions documentation for more details
-// WEBARSDK.Init()
-
-// // Sets the webar mode if not defined earlier or enable lazy mode in webar-mode parameter
-// WEBARSDK.SetWebARMode('surface-tracking')
-
-// // Give a callback when the WebAR Stage <a-entity webar-stage> is ready  to display the 3d object
-// WEBARSDK.SetStageReadyCallback(() => {
-//   console.info('Stage is ready now!!!')
-// })
-
-// WEBARSDK.SetGuideViewCallbacks(
-//   (startGuideViewCallback = () => {
-//     console.log(' Start(ed) hand guide animation')
-//   }),
-//   (stopGuideViewCallback = () => {
-//     console.log(' Stop(ped) hand guide animation')
-//   })
-// )
-
-// WEBARSDK.SetPrepareForCameraTransitionCallback(() => {
-//   deskenv.parentNode.removeChild(deskenv)
-// })
