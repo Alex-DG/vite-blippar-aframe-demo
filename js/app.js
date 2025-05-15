@@ -3,7 +3,7 @@ console.log('⚙️', 'BLIPPAR INITIALISATION')
 // Load scene using URL params
 // sample URL: https://workspace.8thwall.app/vps-beta/?scene=detect-mesh
 const params = new URLSearchParams(document.location.search.substring(1))
-const sceneName = params.get('scene') ? params.get('scene') : 'default-scene'
+const sceneName = params.get('scene') ? params.get('scene') : 'marker-scene'
 console.log('sceneName = ', sceneName)
 
 const updateResetButton = () => {
@@ -20,8 +20,12 @@ fetch(`../scenes/${sceneName}.html`)
   .then((html) => {
     document.querySelector('a-scene').innerHTML = html
 
-    // Refer API:Functions documentation for more details
     WEBARSDK.Init()
+
+    // if (sceneName.includes('marker')) {
+    //   console.log('webar-mode = ', 'marker-tracking')
+    //   WEBARSDK.SetWebARMode('marker-tracking')
+    // }
 
     // Give a callback when the WebAR Stage <a-entity webar-stage> is ready  to display the 3d object
     WEBARSDK.SetStageReadyCallback(() => {
@@ -42,6 +46,16 @@ fetch(`../scenes/${sceneName}.html`)
 
     WEBARSDK.SetPrepareForCameraTransitionCallback(() => {
       deskenv.parentNode.removeChild(deskenv)
+    })
+
+    // Give a callback when the WebAR Marker <a-entity webar-marker> is ready  to track the marker image
+    WEBARSDK.SetMarkerDetectedCallback((markerId) => {
+      console.info('Marker is detected for marker id: ', markerId)
+    })
+
+    // Give a callback when the WebAR Marker <a-entity webar-marker> is lost
+    WEBARSDK.SetMarkerLostCallback((markerId) => {
+      console.info('Marker tracking is lost for marker id: ', markerId)
     })
   })
   .catch((error) => {

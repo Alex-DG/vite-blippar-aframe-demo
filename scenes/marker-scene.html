@@ -1,0 +1,22 @@
+<a-scene
+  webar-scene="key: %VITE_BLIPPAR_APP_KEY%"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false"
+  loading-screen="enabled: false"
+  renderer="colorManagement: true;"
+  gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/v1/decoders/"
+>
+  <!-- Step 3: Add webar-camera attribute to AFrame's <a-entity camera> tag -->
+  <a-camera webar-camera></a-camera>
+
+  <!-- Step 4: Add webar-marker attribute with a valid marker id value(obtained from Blippar hub), to AFrame's parent <a-entity> tag -->
+  <!-- The models defined as a child element under this webar-marker id, will be displayed on the marker image during marker image tracking -->
+  <a-entity webar-marker="id: 0128077d-76ef-4070-ac28-d5e31167ee0f">
+    <!-- Step 5: Add AR models under the webar-marker nodes -->
+    <!-- Add webar-loadmonitor attribute to the entities to display loading progress screen before starting the surface tracking -->
+    <!-- Refer API Reference documentation for more details -->
+    <a-box color="orange"></a-box>
+  </a-entity>
+
+  <!-- Step 6: Add more <a-entity webar-marker="id: ..."> elements here, if required -->
+</a-scene>
