@@ -11,7 +11,7 @@
     <!-- PS: User may overload the splash screen by passing function string to on-load parameter
          e.g. on-load = "LoadMySplash()" -->
     <script
-      src="../webar-sdk/webar-sdk-v2.0.7.min.js"
+      src="./webar-sdk/webar-sdk-v2.0.7.min.js"
       on-load=""
       webar-mode="marker-tracking"
       debug-mode="false"
@@ -85,11 +85,11 @@
       <a-assets timeout="60000">
         <a-asset-item
           id="testmodel1"
-          src="../assets/models/MaterialsVariantsShoe.glb"
+          src="./assets/models/MaterialsVariantsShoe.glb"
         ></a-asset-item>
         <a-asset-item
           id="testmodel2"
-          src="../assets/models/astronaut.glb"
+          src="./assets/models/astronaut.glb"
         ></a-asset-item>
       </a-assets>
 
@@ -109,9 +109,19 @@
         ></a-entity>
       </a-entity>
 
+      <!-- Step 6: Add another webar-marker attribute with a valid marker id to another parent <a-entity> tag -->
       <a-entity webar-marker="id: 4bbcdaff-30e6-45f1-a590-78cfc10877b1">
-        <a-box color="red"></a-box>
+        <a-entity
+          gltf-model="#testmodel2"
+          id="testmodel_2"
+          rotation="0 0 0"
+          position="0 -0.5 0"
+          scale="0.25 0.25 0.25"
+          webar-loadmonitor="elType: glb"
+        ></a-entity>
       </a-entity>
+
+      <!-- Step 7: Add more <a-entity webar-marker="id: ..."> elements here, if required -->
     </a-scene>
 
     <!-- Refer API:Functions documentation for more details -->
